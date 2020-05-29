@@ -1,5 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: {
     app: './src/index.js'
@@ -12,9 +14,12 @@ module.exports = {
     rules: [
         {
         test: /\.css$/,
-          use: [
-          'style-loader',
-            'css-loader'
+        use: [{
+          loader: MiniCssExtractPlugin.loader,
+        },
+          'css-loader',
+          'sass-loader',
+          'postcss-loader'
         ]
       },
       {
@@ -52,6 +57,10 @@ module.exports = {
     ]
     },
   plugins: [
-    new CleanWebpackPlugin(),   // 清理dist文件夹
-    ]
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+    })
+  ]
 };
