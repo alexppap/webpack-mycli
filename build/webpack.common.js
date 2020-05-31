@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
   entry: {
     app: './src/index.js'
@@ -12,15 +13,30 @@ module.exports = {
   },
   module: {
     rules: [
-        {
-        test: /\.css$/,
-        use: [{
-          loader: MiniCssExtractPlugin.loader,
-        },
-          'css-loader',
-          'sass-loader',
-          'postcss-loader'
-        ]
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/transform-runtime','transform-vue-jsx']
+          }
+        }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+      test: /\.css$/,
+      use: [{
+        loader: MiniCssExtractPlugin.loader,
+      },
+        'css-loader',
+        'sass-loader',
+        'postcss-loader'
+      ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -61,6 +77,7 @@ module.exports = {
     new HtmlWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
-    })
+    }),
+    new VueLoaderPlugin()
   ]
 };
