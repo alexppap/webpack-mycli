@@ -11,6 +11,13 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../dist')
   },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': '../src',
+    }
+  },
   module: {
     rules: [
       {
@@ -29,7 +36,7 @@ module.exports = {
         loader: 'vue-loader'
       },
       {
-      test: /\.css$/,
+      test: /\.(css|sass)$/,
       use: [{
         loader: MiniCssExtractPlugin.loader,
       },
