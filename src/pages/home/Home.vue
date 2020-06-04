@@ -9,7 +9,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      name: '87878'
+      name: '来了'
     }
   }
 }
